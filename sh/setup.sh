@@ -8,6 +8,8 @@ SVC_DB_PASSWORD=${SVC_DB_PASSWORD:-root}
 SVC_DB_TYPE=${SVC_DB_TYPE:-mysql}
 
 sed -i "s/Listen 80/Listen ${SVC_FQDN}:${SVC_PORT}/" /etc/apache2/apache2.conf
+sed -i "s@ErrorLog.*@ErrorLog /var/log/apache2/apache.err@" /etc/apache2/apache2.conf
+sed -i "s@CustomLog.*@CustomLog /var/log/apache2/apache.log combined@" /etc/apache2/apache2.conf
 
 [[ ! -f /.database.inc.setup.is.done ]] && {
     sed -i "/cfgHostname/ s/localhost/${SVC_FQDN}/" /opt/trunk/database.inc
@@ -18,3 +20,5 @@ sed -i "s/Listen 80/Listen ${SVC_FQDN}:${SVC_PORT}/" /etc/apache2/apache2.conf
 
     touch /.database.inc.setup.is.done
 }
+
+exit 0
