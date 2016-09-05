@@ -1,6 +1,8 @@
 #!/bin/bash
 
-for file in /run/apache2/apache2.pid /var/run/apache2/apache2.pid
+[[ -f /apache.env ]] && . /apache.env
+
+for file in /run/apache2/apache2.pid ${APACHE_PID_FILE}
 do
     [[ -f $file ]] && {
         /bin/rm -f $file && echo "Found $file. Deleted." 
